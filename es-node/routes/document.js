@@ -4,7 +4,6 @@ const elasticsearch = require('elasticsearch');
 const client = new elasticsearch.Client({
     hosts: [ 'http://localhost:9200']
 });
-var indexName = "randomindex";
 
 router.post('/addData',function(req,res) {
     const data = req.body;
@@ -24,11 +23,6 @@ router.post('/addData',function(req,res) {
         res.send('data added');
        }
    });
-});
-
-router.get('/',function(req,res) {
-    console.log('hello')
-    res.send('hello')
 });
 
 router.post('/createIndex', function(req,res) {
@@ -59,12 +53,8 @@ router.post('/createIndex', function(req,res) {
 
 router.post('/searchData', function(req,res) {
     client.search({
-        index: indexName,
-        type: "document",
-        body: {
-            title: "title",
-            content: "content",
-        }
+        index: req.body.index,
+        data: req.body.data
         },function(err,resp) {
             if(err) {
                 console.log(err);
